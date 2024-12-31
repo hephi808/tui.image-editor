@@ -1,25 +1,41 @@
 module.exports = {
-    "extends": "tui/es6",
-    "env": {
-        "browser": true,
-        "amd": true,
-        "node": true,
-        "jasmine": true,
-        "jquery": true,
-        "es6": true
+  root: true,
+  extends: ['tui/es6', 'plugin:jest/recommended', 'plugin:prettier/recommended'],
+  plugins: ['jest', 'prettier'],
+  env: {
+    browser: true,
+    amd: true,
+    node: true,
+    es6: true,
+    jest: true,
+    'jest/globals': true,
+  },
+  parser: '@babel/eslint-parser',
+  parserOptions: {
+    sourceType: 'module',
+    babelOptions: {
+      rootMode: 'upward',
     },
-    "globals": {
-        "fabric": true,
-        "tui": true,
-        "loadFixtures": true
+  },
+  ignorePatterns: ['node_modules/*', 'dist', 'examples'],
+  rules: {
+    'prefer-destructuring': [
+      'error',
+      {
+        VariableDeclarator: { array: true, object: true },
+        AssignmentExpression: { array: false, object: false },
+      },
+    ],
+  },
+  overrides: [
+    {
+      files: ['*.spec.js'],
+      rules: {
+        'max-nested-callbacks': ['error', { max: 5 }],
+        'dot-notation': ['error', { allowKeywords: true }],
+        'no-undefined': 'off',
+        'jest/expect-expect': ['error', { assertFunctionNames: ['expect', 'assert*'] }],
+      },
     },
-    "parserOptions": {
-        "sourceType": "module"
-    },
-    'rules': {
-        'prefer-destructuring': ['error', {
-            VariableDeclarator: {array: true, object: true},
-            AssignmentExpression: {array: false, object: false}
-        }]
-    }
+  ],
 };
